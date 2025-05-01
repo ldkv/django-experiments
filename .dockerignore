@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL / cache files
+__pycache__/
+**/.*_cache/
+.cache
+.pytype/
+.devspace/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Unit test / coverage reports / docs
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+docs/_build/
+
+# Personal files
+.idea/
+.vscode/
+.DS_Store
+.python-version
+celerybeat-schedule
+.dev*
+.env
+.envrc
+.venv*
+.docker_volumes/
+*.sql
+
+# Unused repo files
+**/*tests*/
+**/.github/
+docker-compose*
+Dockerfile
+*.md
+.gitignore
+.env*
+devspace*

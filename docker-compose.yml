@@ -1,0 +1,50 @@
+services:
+  psql-db:
+    image: postgres:16.0
+    restart: always
+    environment:
+      - POSTGRES_DB=${EXPERIMENTS_DB_NAME:-experimentsdb}
+      - POSTGRES_USER=${EXPERIMENTS_DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${EXPERIMENTS_DB_PASSWORD:-postgres}
+    ports:
+      - "127.0.0.1:${EXPERIMENTS_DB_PORT:-5432}:5432"
+    volumes:
+      - ./.docker_volumes/db:/var/lib/postgresql/data
+    shm_size: "1g" # for vacuum https://www.sqlpassion.at/archive/2024/12/09/how-to-fix-the-postgresql-could-not-resize-shared-memory-segment-error-in-docker/
+    networks:
+      - experiments-net
+    env_file:
+      - .env.default
+      - .env
+
+  redis-server:
+    restart: always
+    image: redis:7.0
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    volumes:
+      - ./.docker_volumes/redis:/data
+    networks:
+      - experiments-net
+    env_file:
+      - .env.default
+      - .env
+
+  experiments-api:
+    restart: always
+    build: .
+    command: gunicorn -c config/gunicorn_configs.py
+    ports:
+      - "${API_PORT:-8000}:${API_PORT:-8000}"
+    depends_on:
+      - redis-server
+    networks:
+      - experiments-net
+    env_file:
+      - .env.default
+      - .env
+      - .env.docker
+
+networks:
+  experiments-net:
+    driver: bridge
