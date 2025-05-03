@@ -4,22 +4,24 @@ version = "0.0.0" # See current_version below
 requires-python = "==3.13.*"
 readme = "README.md"
 dependencies = [
-    "celery==5.5.1",
+    "celery==5.5.2",
     "django==5.2",
     "django-celery-beat==2.8.0",
-    "django-debug-toolbar==5.0.1",
+    "django-debug-toolbar==5.2.0",
     "faker==37.1.0",
     "gunicorn==23.0.0",
-    "psycopg[binary,pool]==3.2.6",
-    "redis[hiredis]==5.2.1",
+    "matplotlib==3.10.1",
+    "psycopg[binary,pool]==3.2.7",
+    "redis[hiredis]==6.0.0",
 ]
 
 [dependency-groups]
 dev = [
+    "django-stubs[compatible-mypy]==5.2.0",
     "fakeredis==2.28.1",
     "mypy==1.15.0",
     "pytest-django==4.11.1",
-    "ruff==0.11.7",
+    "ruff==0.11.8",
 ]
 
 [tool.uv]
@@ -57,6 +59,10 @@ max-complexity = 10
 # mypy
 [tool.mypy]
 ignore_missing_imports = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
 
 # pytest
 [tool.pytest.ini_options]

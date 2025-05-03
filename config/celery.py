@@ -44,7 +44,7 @@ class CeleryConfig:
     task_always_eager = is_test_environment()
     task_eager_propagates = is_test_environment()
     # Import tasks from modules other than tasks.py
-    imports = []
+    imports = ["experiments.tasks"]
 
 
 # Initialize Celery app

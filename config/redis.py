@@ -1,7 +1,5 @@
 import os
-import pickle
 from functools import lru_cache
-from typing import Any
 
 from redis import Redis
 
@@ -24,14 +22,3 @@ def get_redis_client(host: str = REDIS_HOST, port: int = REDIS_PORT, db: int = R
         return fakeredis.FakeStrictRedis()
 
     return Redis(host=host, port=port, db=db)
-
-
-def set_cache_value(key: str, value: Any, expiration: int = None) -> bool:
-    client = get_redis_client()
-    return client.set(key, pickle.dumps(value), ex=expiration)
-
-
-def get_cache_value(key: str) -> Any | None:
-    client = get_redis_client()
-    value = client.get(key)
-    return pickle.loads(value) if value else None
